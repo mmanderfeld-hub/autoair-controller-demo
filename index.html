@@ -64,6 +64,12 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       text-align: center;
+    .logo-img {
+      width: 110px;
+      height: auto;
+      animation: pulse 1.8s ease-in-out infinite;
+      filter: drop-shadow(0 0 15px rgba(36, 211, 255, 0.6));
+    }
     }
 
     .splash-subtitle {
@@ -276,17 +282,15 @@
 <body>
   <!-- Splash / loading screen -->
   <div id="splash">
-    <div class="logo-circle">
-      <div class="logo-text">AUTO-AIR</div>
-    </div>
-    <div class="splash-subtitle">Calibrating airflow...</div>
-  </div>
+<div class="logo-circle">
+  <img src="Auto-Air.png" alt="Auto-Air Logo" class="logo-img">
+</div>
 
   <!-- Main app -->
   <div id="app" class="app-hidden">
     <div class="card">
       <div class="title">Auto-Air Controls</div>
-      <div class="subtitle">Demo UI (GitHub Pages)</div>
+      <div class="subtitle">Demo </div> <!---Adjust
 
       <!-- Power -->
       <div class="section">
