@@ -4,26 +4,28 @@
   <meta charset="UTF-8">
   <title>Auto-Air Controller (Demo)</title>
   <style>
-
+    /* ====== Global App Theme ====== */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #001f3f; /* dark blue like the logo
+      background-color: #001f3f; /* deep Auto-Air blue */
+      color: #e6e6e6; /* light text for contrast */
     }
 
-    /* Simple loading screen */
+    /* ====== Loading Screen ====== */
     #loading-screen {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: white;
+      background-color: #001f3f; /* match app background */
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
+      transition: opacity 0.8s ease;
     }
 
     #loading-screen img {
@@ -35,10 +37,10 @@
     #loading-text {
       font-size: 18px;
       margin-top: 5px;
-      color: #555;
+      color: #d0d0d0;
     }
 
-    /* Main app */
+    /* ====== Main App ====== */
     #main-app {
       display: none; /* hidden until loading is done */
       padding: 16px;
@@ -47,22 +49,22 @@
     .container {
       max-width: 400px;
       margin: 0 auto;
-      background-color: white;
-      border: 1px solid #ccc;
-      padding: 16px;
-      border-radius: 6px;
+      background: none;
+      border: none;
+      box-shadow: none;
+      padding: 0;
     }
 
     h1 {
       font-size: 22px;
-      margin-top: 0;
       text-align: center;
+      color: #ffffff;
     }
 
     .section {
-      border-top: 1px solid #ddd;
-      padding-top: 10px;
-      margin-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 12px;
+      margin-top: 12px;
     }
 
     .section:first-of-type {
@@ -73,12 +75,12 @@
 
     .section-title {
       font-weight: bold;
-      margin-bottom: 6px;
+      color: #ffffff;
     }
 
     .section-description {
       font-size: 12px;
-      color: #555;
+      color: #b0b0b0;
       margin-bottom: 6px;
     }
 
@@ -88,45 +90,60 @@
       justify-content: space-between;
     }
 
-    .speed-buttons button {
-      margin-right: 5px;
-      padding: 6px 10px;
+    .toggle-row span {
+      color: #ffffff;
     }
 
-    .segmented button {
-      padding: 6px 10px;
-      margin-right: 5px;
+    .speed-buttons button,
+    .segmented button,
+    #control-fan-btn {
+      background-color: rgba(255,255,255,0.1);
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin: 4px;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+      cursor: pointer;
     }
 
-    .segmented button.active,
-    .speed-buttons button.active {
-      background-color: #007bff;
-      color: white;
+    .speed-buttons button:hover,
+    .segmented button:hover,
+    #control-fan-btn:hover {
+      background-color: rgba(255,255,255,0.2);
+      transform: scale(1.03);
+    }
+
+    .speed-buttons button.active,
+    .segmented button.active {
+      background-color: #007bff; /* accent blue */
+      color: #ffffff;
     }
 
     #control-fan-btn {
       width: 100%;
-      padding: 8px;
-      margin-top: 10px;
+      margin-top: 14px;
+      background-color: #007bff;
+      color: #ffffff;
     }
 
     #status {
       font-size: 12px;
-      margin-top: 8px;
-      color: #555;
+      margin-top: 10px;
+      color: #b0b0b0;
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
-  <!-- Very simple fake loading screen -->
+  <!-- ====== Loading Screen ====== -->
   <div id="loading-screen">
-    <!-- Your logo file name here -->
     <img src="Auto-Air.png" alt="Auto-Air Logo">
     <div id="loading-text">Loading Auto-Air...</div>
   </div>
 
-  <!-- Main app content -->
+  <!-- ====== Main App ====== -->
   <div id="main-app">
     <div class="container">
       <h1>Auto-Air Controls</h1>
@@ -141,7 +158,7 @@
         </div>
       </div>
 
-      <!-- Fan speed -->
+      <!-- Fan Speed -->
       <div class="section">
         <div class="section-title">Fan Speed</div>
         <div class="section-description">Choose between 3 fan speeds.</div>
@@ -152,7 +169,7 @@
         </div>
       </div>
 
-      <!-- Face detection -->
+      <!-- Face Detection -->
       <div class="section">
         <div class="section-title">Face Detection</div>
         <div class="section-description">Automatically aim the fan at a face.</div>
@@ -167,7 +184,7 @@
         </div>
       </div>
 
-      <!-- Bluetooth assist -->
+      <!-- Bluetooth Assist -->
       <div class="section">
         <div class="section-title">Tracking Options</div>
         <div class="section-description">Use Bluetooth to help pick the correct face.</div>
@@ -184,14 +201,18 @@
     </div>
   </div>
 
+  <!-- ====== Scripts ====== -->
   <script>
     // Simple fake loading: show splash for ~2 seconds
     window.onload = function() {
       setTimeout(function() {
         var loading = document.getElementById("loading-screen");
         var app = document.getElementById("main-app");
-        loading.style.display = "none";
-        app.style.display = "block";
+        loading.style.opacity = "0";
+        setTimeout(function() {
+          loading.style.display = "none";
+          app.style.display = "block";
+        }, 800); // matches fade time
       }, 2000);
     };
 
@@ -206,11 +227,9 @@
     }
 
     function setSpeed(speed) {
-      // clear active state
       document.getElementById("speed-1").classList.remove("active");
       document.getElementById("speed-2").classList.remove("active");
       document.getElementById("speed-3").classList.remove("active");
-      // set current
       document.getElementById("speed-" + speed).classList.add("active");
       setStatus("Speed set to " + speed + " (demo).");
     }
