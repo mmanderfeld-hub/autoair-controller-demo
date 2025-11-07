@@ -2,13 +2,25 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <!-- ✅ Make it scale correctly on phones -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <!-- ✅ Helps it behave more like an app when added to Home Screen (iPhone) -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
   <title>Auto-Air Controller (Demo)</title>
   <style>
     /* ====== Global App Theme ====== */
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    body {
       font-family: Arial, sans-serif;
-      background-color: #130033; /* deep Auto-Air blue */
+      background-color: #130033; /* your Auto-Air deep indigo */
       color: #e6e6e6; /* light text for contrast */
     }
 
@@ -44,6 +56,8 @@
     #main-app {
       display: none; /* hidden until loading is done */
       padding: 16px;
+      box-sizing: border-box;
+      min-height: 100%;
     }
 
     .container {
@@ -116,14 +130,14 @@
 
     .speed-buttons button.active,
     .segmented button.active {
-      background-color: #007bff; /* accent blue */
+      background-color: #4b4bff; /* subtle bluish accent that fits #130033 */
       color: #ffffff;
     }
 
     #control-fan-btn {
       width: 100%;
       margin-top: 14px;
-      background-color: #007bff;
+      background-color: #4b4bff;
       color: #ffffff;
     }
 
